@@ -21,4 +21,4 @@ public interface WordDAO {
     @Query("SELECT * FROM word_table ORDER BY word ASC")
     LiveData<List<Word>> getAllWords();
 }
-//02 ends.
+//02 ends. Go to package database --> WordRoomDatabase and find //03
