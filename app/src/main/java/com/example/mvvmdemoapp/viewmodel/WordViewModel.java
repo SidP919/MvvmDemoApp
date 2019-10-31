@@ -50,4 +50,4 @@ public class WordViewModel extends AndroidViewModel {
     }
 }
 //To Learn more: https://www.youtube.com/watch?v=c9-057jC1ZA
-//05 ends.
+//05 ends. Go to MainActivity for //06
