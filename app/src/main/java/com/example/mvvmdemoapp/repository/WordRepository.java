@@ -18,7 +18,7 @@ public class WordRepository {
     private LiveData<List<Word>> mAllWords;
 
     //Add a constructor that gets a handle to the database and initializes the member variables.
-    WordRepository(Application application) {
+    public WordRepository(Application application) {
         WordRoomDatabase db = WordRoomDatabase.getDatabase(application);
         mWordDAO = db.wordDAO();
         mAllWords = mWordDAO.getAllWords();
@@ -27,7 +27,7 @@ public class WordRepository {
     //Add a wrapper method called getAllWords() that returns the cached words as LiveData.
     // Room executes all queries on a separate thread.
     // Observed LiveData notifies the observer when the data changes.
-    LiveData<List<Word>> getAllWords() {
+    public LiveData<List<Word>> getAllWords() {
         return mAllWords;
     }
 
@@ -56,4 +56,4 @@ public class WordRepository {
 }
 //For more complex implementation check out:
 // https://github.com/googlesamples/android-architecture-components/tree/master/BasicSample
-//04 ends.
+//04 ends. Go to ViewModel package --> WordViewModel and find //05
