@@ -25,7 +25,7 @@ in this case there is only one entity, Word.
 public abstract class WordRoomDatabase extends RoomDatabase {
     private static WordRoomDatabase INSTANCE;
 
-    //08 continue...
+    //08
     //To delete all content and repopulate the database whenever the app is started,
     // you create a RoomDatabase.Callback and override the onOpen() method.
     // Because you cannot do Room database operations on the UI thread,
@@ -41,6 +41,7 @@ public abstract class WordRoomDatabase extends RoomDatabase {
                     new PopulateDbAsync(INSTANCE).execute();
                 }
             };
+    //08 paused...
 
     //Define the DAOs that work with the database. Provide an abstract "getter" method for each @Dao.
     public abstract WordDAO wordDAO();
@@ -73,6 +74,7 @@ public abstract class WordRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    //08 continued...
     //Create an inner class PopulateDbAsync that extends AsycTask.
     // Implement the doInBackground() method to delete all words, then create new ones.
     // Here is the code for the AsyncTask that deletes the contents of the database,

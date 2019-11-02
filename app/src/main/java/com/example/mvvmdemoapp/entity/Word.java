@@ -33,7 +33,7 @@ public class Word {
         return this.mWord;
     }
 }
-//01 ends.
+//01 ends. Go to dao package --> WordDAO.java and find //02
 /*
 Tip on auto-generating keys:
 To auto-generate a unique key for each entity,
