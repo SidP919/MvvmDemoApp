@@ -39,7 +39,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         }
     }
 
-    void setWords(List<Word> words) {
+    public void setWords(List<Word> words) {
         mWords = words;
         notifyDataSetChanged();
     }
@@ -62,4 +62,4 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
         }
     }
 }
-//07 ends.
+//07 ends. go to WordRoomDatabase for//08

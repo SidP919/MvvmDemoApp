@@ -1,13 +1,16 @@
 package com.example.mvvmdemoapp.database;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.example.mvvmdemoapp.dao.WordDAO;
 import com.example.mvvmdemoapp.entity.Word;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 //03
 /*
@@ -22,8 +25,25 @@ in this case there is only one entity, Word.
 public abstract class WordRoomDatabase extends RoomDatabase {
     private static WordRoomDatabase INSTANCE;
 
-    private WordRoomDatabase() {
-    }
+    //08 continue...
+    //To delete all content and repopulate the database whenever the app is started,
+    // you create a RoomDatabase.Callback and override the onOpen() method.
+    // Because you cannot do Room database operations on the UI thread,
+    // onOpen() creates and executes an AsyncTask to add content to the database.
+    //
+    //Add the onOpen() callback in the WordRoomDatabase class:
+    private static RoomDatabase.Callback sRoomDatabaseCallback =
+            new RoomDatabase.Callback() {
+
+                @Override
+                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                    super.onOpen(db);
+                    new PopulateDbAsync(INSTANCE).execute();
+                }
+            };
+
+    //Define the DAOs that work with the database. Provide an abstract "getter" method for each @Dao.
+    public abstract WordDAO wordDAO();
 
     public static WordRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -41,6 +61,11 @@ public abstract class WordRoomDatabase extends RoomDatabase {
                             // Migration is not part of this practical for which go to:
                             //https://medium.com/google-developers/understanding-migrations-with-room-f01e04b07929
                             .fallbackToDestructiveMigration()
+                            //08
+                            //Add the callback to the database build sequence in WordRoomDatabase,
+                            // right before you call .build():
+                            .addCallback(sRoomDatabaseCallback)
+                            //08 paused...
                             .build();
                 }
             }//lock is released here.
@@ -48,7 +73,36 @@ public abstract class WordRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    //Define the DAOs that work with the database. Provide an abstract "getter" method for each @Dao.
-    public abstract WordDAO wordDAO();
+    //Create an inner class PopulateDbAsync that extends AsycTask.
+    // Implement the doInBackground() method to delete all words, then create new ones.
+    // Here is the code for the AsyncTask that deletes the contents of the database,
+    // then populates it with an initial list of words.
+    ///**
+    //* Populate the database in the background.
+    //*/
+    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
+
+        private final WordDAO mDao;
+        String[] words = {"Hello", "World", "What's", "going", "on", "there"};
+
+        PopulateDbAsync(WordRoomDatabase db) {
+            mDao = db.wordDAO();
+        }
+
+        @Override
+        protected Void doInBackground(final Void... params) {
+            // Start the app with a clean database every time.
+            // Not needed if you only populate the database
+            // when it is first created
+            mDao.deleteAll();
+
+            for (int i = 0; i <= words.length - 1; i++) {
+                Word word = new Word(words[i]);
+                mDao.insert(word);
+            }
+            return null;
+        }
+    }
+    //08 ends. go to MainActivity for //09
 }
 //03 ends. GO to package repository --> WordRepository and find //04
