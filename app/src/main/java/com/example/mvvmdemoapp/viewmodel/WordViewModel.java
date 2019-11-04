@@ -48,6 +48,18 @@ public class WordViewModel extends AndroidViewModel {
     public void insert(Word word) {
         mRepository.insert(word);
     }
+
+    //17
+    public void deleteAll() {
+        mRepository.deleteAll();
+    }
+    //17 ends. Go to MainActivity for //18
+
+    //21
+    public void deleteWord(Word word) {
+        mRepository.deleteWord(word);
+    }
+    //21 ends. Go to WordListAdapter for //22
 }
 //To Learn more: https://www.youtube.com/watch?v=c9-057jC1ZA
 //05 ends. Go to MainActivity for //06

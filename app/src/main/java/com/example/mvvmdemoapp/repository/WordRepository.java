@@ -53,6 +53,46 @@ public class WordRepository {
             return null;
         }
     }
+
+    public void deleteAll() {
+        new deleteAllWordsAsyncTask(mWordDAO).execute();
+    }
+
+    public void deleteWord(Word word) {
+        new deleteWordAsyncTask(mWordDAO).execute(word);
+    }
+    //16 ends Goto WordViewModel for //17
+
+    //16
+    private static class deleteAllWordsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private WordDAO mAsyncTaskDao;
+
+        deleteAllWordsAsyncTask(WordDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mAsyncTaskDao.deleteAll();
+            return null;
+        }
+    }
+
+    //20
+    private static class deleteWordAsyncTask extends AsyncTask<Word, Void, Void> {
+        private WordDAO mAsyncTaskDao;
+
+        deleteWordAsyncTask(WordDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Word... params) {
+            mAsyncTaskDao.deleteWord(params[0]);
+            return null;
+        }
+    }
+    //20 ends. Goto WordViewModel for //21
 }
 //For more complex implementation check out:
 // https://github.com/googlesamples/android-architecture-components/tree/master/BasicSample

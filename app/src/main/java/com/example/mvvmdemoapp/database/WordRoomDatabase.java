@@ -96,12 +96,15 @@ public abstract class WordRoomDatabase extends RoomDatabase {
             // Start the app with a clean database every time.
             // Not needed if you only populate the database
             // when it is first created
-            mDao.deleteAll();
+//            mDao.deleteAll();
 
-            for (int i = 0; i <= words.length - 1; i++) {
-                Word word = new Word(words[i]);
-                mDao.insert(word);
-            }
+            //15
+            // If we have no words, then create the initial list of words:
+            if (mDao.getAnyWord().length < 1)//15 ends. Goto WordRepository for //16
+                for (int i = 0; i <= words.length - 1; i++) {
+                    Word word = new Word(words[i]);
+                    mDao.insert(word);
+                }
             return null;
         }
     }
